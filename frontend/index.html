@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="AI-powered waste classification using a fine-tuned EfficientNetB0 deep learning model."
+    >
+
+    <meta
+        name="theme-color"
+        content="#0b0f14"
+    >
+
+    <title>Smart Waste Classifier | AI Waste Classification</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- ======================================================
+         APPLICATION
+    ======================================================= -->
+
+    <main class="app">
+
+
+        <!-- ==================================================
+             HEADER
+        =================================================== -->
+
+        <header class="header">
+
+            <div class="brand">
+
+                <div
+                    class="brand-icon"
+                    aria-hidden="true"
+                >
+                    ♻
+                </div>
+
+                <div class="brand-content">
+
+                    <h1>
+                        Smart Waste Classifier
+                    </h1>
+
+                    <p>
+                        AI-powered waste classification
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- API STATUS -->
+
+            <div
+                id="apiStatus"
+                class="status offline"
+                role="status"
+                aria-live="polite"
+            >
+
+                <span
+                    class="status-dot"
+                    aria-hidden="true"
+                ></span>
+
+                <span>
+                    API Offline
+                </span>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ==================================================
+             HERO
+        =================================================== -->
+
+        <section
+            class="hero"
+            aria-labelledby="heroTitle"
+        >
+
+            <span class="eyebrow">
+                EFFICIENTNETB0 · DEEP LEARNING
+            </span>
+
+
+            <h2 id="heroTitle">
+
+                Identify waste with
+
+                <span>
+                    AI
+                </span>
+
+            </h2>
+
+
+            <p>
+
+                Upload an image and let the trained deep learning
+                model identify its most likely waste category.
+
+            </p>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             CLASSIFIER
+        =================================================== -->
+
+        <section
+            class="classifier"
+            aria-label="Waste classifier"
+        >
+
+
+            <!-- ==============================================
+                 UPLOAD PANEL
+            =============================================== -->
+
+            <div class="upload-panel">
+
+
+                <!-- DROP ZONE -->
+
+                <div
+                    id="dropZone"
+                    class="drop-zone"
+                    tabindex="0"
+                    role="button"
+                    aria-label="Upload waste image"
+                >
+
+                    <div
+                        class="upload-icon"
+                        aria-hidden="true"
+                    >
+                        ↑
+                    </div>
+
+
+                    <h3>
+                        Drop your image here
+                    </h3>
+
+
+                    <p>
+                        or select an image from your device
+                    </p>
+
+
+                    <label
+                        for="imageInput"
+                        class="upload-button"
+                    >
+                        Choose Image
+                    </label>
+
+
+                    <input
+                        id="imageInput"
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        hidden
+                    >
+
+
+                    <small>
+                        JPG, PNG or WEBP · Maximum 10 MB
+                    </small>
+
+                </div>
+
+
+
+                <!-- ==========================================
+                     IMAGE PREVIEW
+                =========================================== -->
+
+                <div
+                    id="previewContainer"
+                    class="preview-container hidden"
+                >
+
+                    <div class="preview-image-wrapper">
+
+                        <img
+                            id="imagePreview"
+                            src=""
+                            alt="Selected waste image preview"
+                        >
+
+                    </div>
+
+
+                    <div class="preview-info">
+
+                        <div class="selected-file">
+
+                            <span>
+                                Selected image
+                            </span>
+
+                            <strong id="fileName">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <button
+                            id="removeButton"
+                            type="button"
+                            class="secondary-button"
+                        >
+                            Remove
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ==========================================
+                     PREDICT BUTTON
+                =========================================== -->
+
+                <button
+                    id="predictButton"
+                    class="predict-button"
+                    type="button"
+                    disabled
+                >
+
+                    <span id="predictText">
+                        Classify Waste
+                    </span>
+
+
+                    <span
+                        id="loader"
+                        class="loader hidden"
+                        aria-hidden="true"
+                    ></span>
+
+                </button>
+
+
+                <p class="classifier-note">
+
+                    The model analyzes the image using
+                    a fine-tuned EfficientNetB0 neural network.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- ==============================================
+                 RESULT PANEL
+            =============================================== -->
+
+            <div
+                id="resultPanel"
+                class="result-panel"
+                aria-live="polite"
+            >
+
+
+                <!-- ==========================================
+                     EMPTY STATE
+                =========================================== -->
+
+                <div
+                    id="emptyResult"
+                    class="empty-result"
+                >
+
+                    <div
+                        class="result-icon"
+                        aria-hidden="true"
+                    >
+                        ◈
+                    </div>
+
+
+                    <span class="result-label">
+                        AI CLASSIFICATION
+                    </span>
+
+
+                    <h3>
+                        Prediction results
+                    </h3>
+
+
+                    <p>
+                        Upload an image to see the AI classification.
+                    </p>
+
+                </div>
+
+
+
+                <!-- ==========================================
+                     RESULTS
+                =========================================== -->
+
+                <div
+                    id="results"
+                    class="results hidden"
+                >
+
+                    <span class="result-label">
+                        PREDICTION
+                    </span>
+
+
+                    <h3 id="predictedClass">
+                        -
+                    </h3>
+
+
+                    <!-- CONFIDENCE -->
+
+                    <div class="confidence">
+
+                        <div class="confidence-header">
+
+                            <span>
+                                Confidence
+                            </span>
+
+
+                            <strong id="confidenceValue">
+                                0%
+                            </strong>
+
+                        </div>
+
+
+                        <div
+                            class="progress"
+                            role="progressbar"
+                            aria-label="Prediction confidence"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            aria-valuenow="0"
+                        >
+
+                            <div
+                                id="confidenceBar"
+                                class="progress-bar"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- TOP PREDICTIONS -->
+
+                    <div class="top-predictions">
+
+                        <div class="prediction-heading">
+
+                            <h4>
+                                Top predictions
+                            </h4>
+
+                            <span>
+                                AI ranking
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            id="predictionList"
+                            class="prediction-list"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ==========================================
+                     ERROR
+                =========================================== -->
+
+                <div
+                    id="errorResult"
+                    class="error-result hidden"
+                    role="alert"
+                >
+
+                    <div
+                        class="error-icon"
+                        aria-hidden="true"
+                    >
+                        !
+                    </div>
+
+
+                    <span class="result-label">
+                        ERROR
+                    </span>
+
+
+                    <h3>
+                        Prediction failed
+                    </h3>
+
+
+                    <p id="errorMessage">
+                        Something went wrong.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             SUPPORTED CLASSES
+        =================================================== -->
+
+        <section
+            class="classes-section"
+            aria-labelledby="classesTitle"
+        >
+
+            <div class="section-heading">
+
+                <span class="eyebrow">
+                    MODEL CLASSES
+                </span>
+
+
+                <h3 id="classesTitle">
+                    Supported waste categories
+                </h3>
+
+
+                <p>
+                    The classifier currently recognizes 12 waste categories.
+                </p>
+
+            </div>
+
+
+            <div class="classes-grid">
+
+
+                <span>
+                    <b>🔋</b>
+                    Battery
+                </span>
+
+
+                <span>
+                    <b>🌱</b>
+                    Biological
+                </span>
+
+
+                <span>
+                    <b>🟤</b>
+                    Brown Glass
+                </span>
+
+
+                <span>
+                    <b>📦</b>
+                    Cardboard
+                </span>
+
+
+                <span>
+                    <b>👕</b>
+                    Clothes
+                </span>
+
+
+                <span>
+                    <b>🟢</b>
+                    Green Glass
+                </span>
+
+
+                <span>
+                    <b>🔩</b>
+                    Metal
+                </span>
+
+
+                <span>
+                    <b>📄</b>
+                    Paper
+                </span>
+
+
+                <span>
+                    <b>🥤</b>
+                    Plastic
+                </span>
+
+
+                <span>
+                    <b>👟</b>
+                    Shoes
+                </span>
+
+
+                <span>
+                    <b>🗑</b>
+                    Trash
+                </span>
+
+
+                <span>
+                    <b>⚪</b>
+                    White Glass
+                </span>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             MODEL INFORMATION
+        =================================================== -->
+
+        <section
+            class="model-info-section"
+            aria-label="Model information"
+        >
+
+            <div class="model-info-card">
+
+                <div>
+
+                    <span class="eyebrow">
+                        MODEL
+                    </span>
+
+                    <h3>
+                        EfficientNetB0
+                    </h3>
+
+                </div>
+
+
+                <div>
+
+                    <span class="eyebrow">
+                        FRAMEWORK
+                    </span>
+
+                    <h3>
+                        TensorFlow
+                    </h3>
+
+                </div>
+
+
+                <div>
+
+                    <span class="eyebrow">
+                        API
+                    </span>
+
+                    <h3>
+                        FastAPI
+                    </h3>
+
+                </div>
+
+
+                <div>
+
+                    <span class="eyebrow">
+                        INPUT
+                    </span>
+
+                    <h3>
+                        224 × 224
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             FOOTER
+        =================================================== -->
+
+        <footer>
+
+            <p>
+                Smart Waste Classifier
+                · EfficientNetB0
+                · TensorFlow
+                · FastAPI
+            </p>
+
+
+            <span>
+                AI-powered waste classification
+            </span>
+
+        </footer>
+
+
+    </main>
+
+
+
+    <!-- ======================================================
+         JAVASCRIPT
+    ======================================================= -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

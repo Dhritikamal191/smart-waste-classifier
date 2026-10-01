@@ -1,0 +1,261 @@
+{
+  "tensorflow_version": "2.22.0-rc0",
+  "model": "models\\waste_classifier_finetuned.keras",
+  "target_layer": "top_conv",
+  "target_layer_output_shape": [
+    null,
+    7,
+    7,
+    1280
+  ],
+  "image_size": [
+    224,
+    224
+  ],
+  "total_selected": 24,
+  "processed": 24,
+  "correct": 23,
+  "incorrect": 1,
+  "images": [
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\battery\\battery1.jpg",
+      "true_class": "battery",
+      "predicted_class": "battery",
+      "true_index": 0,
+      "predicted_index": 0,
+      "confidence": 0.9979299306869507,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\battery\\battery1_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\battery\\battery10.jpg",
+      "true_class": "battery",
+      "predicted_class": "battery",
+      "true_index": 0,
+      "predicted_index": 0,
+      "confidence": 0.9999979734420776,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\battery\\battery10_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\biological\\biological1.jpg",
+      "true_class": "biological",
+      "predicted_class": "biological",
+      "true_index": 1,
+      "predicted_index": 1,
+      "confidence": 0.9997578263282776,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\biological\\biological1_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\biological\\biological10.jpg",
+      "true_class": "biological",
+      "predicted_class": "biological",
+      "true_index": 1,
+      "predicted_index": 1,
+      "confidence": 0.9000490307807922,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\biological\\biological10_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\brown-glass\\brown-glass1.jpg",
+      "true_class": "brown-glass",
+      "predicted_class": "brown-glass",
+      "true_index": 2,
+      "predicted_index": 2,
+      "confidence": 0.9953580498695374,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\brown-glass\\brown-glass1_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\brown-glass\\brown-glass10.jpg",
+      "true_class": "brown-glass",
+      "predicted_class": "brown-glass",
+      "true_index": 2,
+      "predicted_index": 2,
+      "confidence": 0.9999949932098389,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\brown-glass\\brown-glass10_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\cardboard\\cardboard1.jpg",
+      "true_class": "cardboard",
+      "predicted_class": "cardboard",
+      "true_index": 3,
+      "predicted_index": 3,
+      "confidence": 0.9999241828918457,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\cardboard\\cardboard1_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\cardboard\\cardboard10.jpg",
+      "true_class": "cardboard",
+      "predicted_class": "cardboard",
+      "true_index": 3,
+      "predicted_index": 3,
+      "confidence": 0.9999563694000244,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\cardboard\\cardboard10_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\clothes\\clothes1.jpg",
+      "true_class": "clothes",
+      "predicted_class": "clothes",
+      "true_index": 4,
+      "predicted_index": 4,
+      "confidence": 1.0,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\clothes\\clothes1_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\clothes\\clothes10.jpg",
+      "true_class": "clothes",
+      "predicted_class": "clothes",
+      "true_index": 4,
+      "predicted_index": 4,
+      "confidence": 0.9999854564666748,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\clothes\\clothes10_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\green-glass\\green-glass1.jpg",
+      "true_class": "green-glass",
+      "predicted_class": "green-glass",
+      "true_index": 5,
+      "predicted_index": 5,
+      "confidence": 0.9876584410667419,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\green-glass\\green-glass1_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\green-glass\\green-glass10.jpg",
+      "true_class": "green-glass",
+      "predicted_class": "green-glass",
+      "true_index": 5,
+      "predicted_index": 5,
+      "confidence": 0.8353253602981567,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\green-glass\\green-glass10_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\metal\\metal1.jpg",
+      "true_class": "metal",
+      "predicted_class": "cardboard",
+      "true_index": 6,
+      "predicted_index": 3,
+      "confidence": 0.94057297706604,
+      "correct": false,
+      "heatmap": "reports\\gradcam\\heatmaps\\metal\\metal1_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\metal\\metal10.jpg",
+      "true_class": "metal",
+      "predicted_class": "metal",
+      "true_index": 6,
+      "predicted_index": 6,
+      "confidence": 0.9961804151535034,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\metal\\metal10_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\paper\\paper1.jpg",
+      "true_class": "paper",
+      "predicted_class": "paper",
+      "true_index": 7,
+      "predicted_index": 7,
+      "confidence": 0.9999997615814209,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\paper\\paper1_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\paper\\paper10.jpg",
+      "true_class": "paper",
+      "predicted_class": "paper",
+      "true_index": 7,
+      "predicted_index": 7,
+      "confidence": 0.6843963861465454,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\paper\\paper10_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\plastic\\plastic1.jpg",
+      "true_class": "plastic",
+      "predicted_class": "plastic",
+      "true_index": 8,
+      "predicted_index": 8,
+      "confidence": 0.9950053095817566,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\plastic\\plastic1_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\plastic\\plastic10.jpg",
+      "true_class": "plastic",
+      "predicted_class": "plastic",
+      "true_index": 8,
+      "predicted_index": 8,
+      "confidence": 0.9789844155311584,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\plastic\\plastic10_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\shoes\\shoes1.jpg",
+      "true_class": "shoes",
+      "predicted_class": "shoes",
+      "true_index": 9,
+      "predicted_index": 9,
+      "confidence": 0.981372594833374,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\shoes\\shoes1_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\shoes\\shoes10.jpg",
+      "true_class": "shoes",
+      "predicted_class": "shoes",
+      "true_index": 9,
+      "predicted_index": 9,
+      "confidence": 0.9576655030250549,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\shoes\\shoes10_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\trash\\trash1.jpg",
+      "true_class": "trash",
+      "predicted_class": "trash",
+      "true_index": 10,
+      "predicted_index": 10,
+      "confidence": 0.9999595880508423,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\trash\\trash1_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\trash\\trash10.jpg",
+      "true_class": "trash",
+      "predicted_class": "trash",
+      "true_index": 10,
+      "predicted_index": 10,
+      "confidence": 0.9990556836128235,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\trash\\trash10_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\white-glass\\white-glass1.jpg",
+      "true_class": "white-glass",
+      "predicted_class": "white-glass",
+      "true_index": 11,
+      "predicted_index": 11,
+      "confidence": 0.9992177486419678,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\white-glass\\white-glass1_gradcam.jpg"
+    },
+    {
+      "image": "data\\raw\\garbage_classification\\garbage_classification\\white-glass\\white-glass10.jpg",
+      "true_class": "white-glass",
+      "predicted_class": "white-glass",
+      "true_index": 11,
+      "predicted_index": 11,
+      "confidence": 0.9545218348503113,
+      "correct": true,
+      "heatmap": "reports\\gradcam\\heatmaps\\white-glass\\white-glass10_gradcam.jpg"
+    }
+  ]
+}

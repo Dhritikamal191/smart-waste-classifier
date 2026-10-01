@@ -1,0 +1,51 @@
+{
+  "model": "models/waste_classifier_finetuned.keras",
+  "test_directory": "data/splits/test",
+  "test_images": 2328,
+  "image_size": [
+    224,
+    224
+  ],
+  "input_scale": "0-255",
+  "batch_size": 64,
+  "classes": [
+    "battery",
+    "biological",
+    "brown-glass",
+    "cardboard",
+    "clothes",
+    "green-glass",
+    "metal",
+    "paper",
+    "plastic",
+    "shoes",
+    "trash",
+    "white-glass"
+  ],
+  "clean_accuracy": 0.9609106529209622,
+  "clean_macro_f1": 0.9429720001219479,
+  "clean_mean_confidence": 0.9783409237861633,
+  "worst_accuracy": 0.6731099656357389,
+  "worst_macro_f1": 0.6591220075339099,
+  "largest_accuracy_drop": 0.28780068728522334,
+  "largest_f1_drop": 0.283849992588038,
+  "worst_accuracy_condition": "blur",
+  "worst_accuracy_severity": 3,
+  "worst_f1_condition": "blur",
+  "worst_f1_severity": 3,
+  "conditions": [
+    "brightness",
+    "contrast",
+    "gaussian_noise",
+    "blur",
+    "rotation",
+    "horizontal_flip",
+    "downscale",
+    "jpeg"
+  ],
+  "severities": [
+    1,
+    2,
+    3
+  ]
+}

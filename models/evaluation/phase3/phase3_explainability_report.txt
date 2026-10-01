@@ -1,0 +1,120 @@
+========================================================================
+PHASE 3 — MODEL EXPLAINABILITY REPORT
+========================================================================
+
+MODEL
+------------------------------------------------------------------------
+Model: waste_classifier_finetuned.keras
+Architecture: EfficientNetB0-based image classifier
+Input size: 224 x 224 x 3
+Number of classes: 12
+
+OVERALL PERFORMANCE
+------------------------------------------------------------------------
+Test images:          2,328
+Correct predictions:  2,236
+Incorrect predictions:    92
+Accuracy:             96.05%
+Error rate:           3.95%
+Macro F1:             0.9425
+Weighted F1:          0.9606
+
+CLASS-LEVEL PERFORMANCE
+------------------------------------------------------------------------
+Class              Precision      Recall          F1     Support
+battery               0.9685      0.9762      0.9723         126
+biological            0.9713      0.9941      0.9826         170
+brown-glass           0.9432      0.9651      0.9540          86
+cardboard             0.9545      0.9459      0.9502         111
+clothes               0.9901      0.9901      0.9901         809
+green-glass           0.9802      0.9252      0.9519         107
+metal                 0.9060      0.9217      0.9138         115
+paper                 0.9551      0.9189      0.9366         185
+plastic               0.8571      0.8837      0.8702         129
+shoes                 0.9726      0.9827      0.9776         289
+trash                 0.9905      0.9369      0.9630         111
+white-glass           0.8298      0.8667      0.8478          90
+
+KEY PERFORMANCE OBSERVATIONS
+------------------------------------------------------------------------
+1. The model achieved 96.05% accuracy on the untouched test set.
+2. The macro F1-score of 0.9425 indicates strong performance across the 12 classes while giving each class equal weight.
+3. White-glass produced the lowest F1-score at 0.8478 and the lowest precision at 0.8298.
+4. Plastic produced an F1-score of 0.8702 and showed several confusions with white-glass, metal, paper, and clothes.
+5. Clothes achieved an F1-score of 0.9901 and represented the largest test class with 809 images.
+6. Biological achieved the highest recall at 0.9941.
+
+TOP CONFUSION PAIRS
+------------------------------------------------------------------------
+True Class        Predicted Class        Count
+white-glass       plastic                    8
+clothes           shoes                      7
+cardboard         paper                      5
+metal             white-glass                5
+plastic           white-glass                5
+paper             cardboard                  4
+shoes             clothes                    4
+green-glass       white-glass                3
+green-glass       plastic                    3
+metal             plastic                    3
+paper             battery                    3
+paper             biological                 3
+plastic           metal                      3
+plastic           paper                      3
+white-glass       metal                      3
+
+GRAD-CAM ANALYSIS
+------------------------------------------------------------------------
+Grad-CAM was applied to representative high-confidence misclassifications identified during error analysis.
+
+1. 01_shoes_to_clothes.png
+   True class:       shoes
+   Predicted class:  clothes
+   Confidence:       1.0000
+
+2. 02_green-glass_to_brown-glass.png
+   True class:       green-glass
+   Predicted class:  brown-glass
+   Confidence:       0.9999
+
+3. 03_clothes_to_shoes.png
+   True class:       clothes
+   Predicted class:  shoes
+   Confidence:       0.9991
+
+4. 04_white-glass_to_plastic.png
+   True class:       white-glass
+   Predicted class:  plastic
+   Confidence:       0.9943
+
+5. 05_paper_to_battery.png
+   True class:       paper
+   Predicted class:  battery
+   Confidence:       0.9940
+
+6. 06_cardboard_to_paper.png
+   True class:       cardboard
+   Predicted class:  paper
+   Confidence:       0.9887
+
+7. 07_plastic_to_clothes.png
+   True class:       plastic
+   Predicted class:  clothes
+   Confidence:       0.9863
+
+8. 08_trash_to_white-glass.png
+   True class:       trash
+   Predicted class:  white-glass
+   Confidence:       0.9936
+
+INTERPRETATION
+------------------------------------------------------------------------
+The error analysis shows that the remaining model errors are concentrated in visually similar waste categories. The most frequent confusions involve white-glass versus plastic, clothes versus shoes, and cardboard versus paper.
+
+Several mistakes occur with very high confidence. This indicates that some visually ambiguous samples are not simply low-confidence predictions; the model can confidently assign an incorrect class when visual characteristics overlap between categories.
+
+Grad-CAM provides a visual explanation of the regions contributing to these predictions and can therefore be used to investigate whether the classifier is relying on relevant object regions or potentially misleading image regions.
+
+PHASE 3 CONCLUSION
+------------------------------------------------------------------------
+Phase 3 establishes both quantitative and visual evidence for model behavior. The classifier performs strongly overall, while the remaining errors provide specific targets for future model improvement and robustness testing.

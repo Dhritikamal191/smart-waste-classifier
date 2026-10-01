@@ -1,0 +1,14 @@
+WASTE CLASSIFIER — PHASE 2 EVALUATION
+============================================================
+
+Test Loss: 0.152669
+Test Accuracy: 0.960481
+Test Accuracy (%): 96.05%
+
+Macro Precision: 0.943238
+Macro Recall: 0.942283
+Macro F1: 0.942521
+
+Weighted Precision: 0.961017
+Weighted Recall: 0.960481
+Weighted F1: 0.960600

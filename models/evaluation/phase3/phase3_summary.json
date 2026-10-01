@@ -1,0 +1,13 @@
+{
+    "phase": 3,
+    "purpose": "Model explainability and error analysis",
+    "model": "models/waste_classifier_finetuned.keras",
+    "test_accuracy": 0.9605,
+    "error_rate": 0.0395,
+    "macro_f1": 0.9425,
+    "weighted_f1": 0.9606,
+    "incorrect_predictions": 92,
+    "gradcam_visualizations": 8,
+    "gradcam_directory": "models\\evaluation\\phase3\\gradcam",
+    "report": "models\\evaluation\\phase3\\phase3_explainability_report.txt"
+}

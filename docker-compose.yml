@@ -1,0 +1,88 @@
+services:
+
+  # ============================================================
+  # SMART WASTE CLASSIFIER API
+  # ============================================================
+
+  smart-waste-api:
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: smart-waste-api
+
+    ports:
+      - "8000:8000"
+
+    gpus: all
+
+    restart: unless-stopped
+
+    environment:
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONUNBUFFERED: "1"
+      TF_CPP_MIN_LOG_LEVEL: "1"
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"
+        ]
+
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+
+  # ============================================================
+  # FRONTEND
+  # ============================================================
+
+  smart-waste-frontend:
+
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    container_name: smart-waste-frontend
+
+    ports:
+      - "5500:80"
+
+    restart: unless-stopped
+
+    depends_on:
+      smart-waste-api:
+        condition: service_healthy
+
+
+  # ============================================================
+  # STREAMLIT DASHBOARD
+  # ============================================================
+
+  smart-waste-dashboard:
+
+    build:
+      context: .
+      dockerfile: dashboard/Dockerfile
+
+    container_name: smart-waste-dashboard
+
+    ports:
+      - "8501:8501"
+
+    restart: unless-stopped
+
+    environment:
+      SMART_WASTE_API_URL: "http://smart-waste-api:8000"
+
+    depends_on:
+      smart-waste-api:
+        condition: service_healthy

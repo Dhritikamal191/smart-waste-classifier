@@ -1,0 +1,44 @@
+{
+  "class_names": [
+    "battery",
+    "biological",
+    "brown-glass",
+    "cardboard",
+    "clothes",
+    "green-glass",
+    "metal",
+    "paper",
+    "plastic",
+    "shoes",
+    "trash",
+    "white-glass"
+  ],
+  "class_counts": {
+    "battery": 690,
+    "biological": 674,
+    "brown-glass": 422,
+    "cardboard": 652,
+    "clothes": 3728,
+    "green-glass": 421,
+    "metal": 547,
+    "paper": 701,
+    "plastic": 585,
+    "shoes": 1388,
+    "trash": 483,
+    "white-glass": 569
+  },
+  "class_weights": {
+    "0": 1.3115942028985508,
+    "1": 1.3427299703264095,
+    "2": 2.1445497630331753,
+    "3": 1.388036809815951,
+    "4": 0.24275751072961374,
+    "5": 2.1496437054631827,
+    "6": 1.6544789762340038,
+    "7": 1.291012838801712,
+    "8": 1.547008547008547,
+    "9": 0.6520172910662824,
+    "10": 1.8737060041407867,
+    "11": 1.5905096660808435
+  }
+}

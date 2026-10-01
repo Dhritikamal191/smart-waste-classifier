@@ -1,0 +1,17 @@
+{
+  "plots_directory": "reports\\robustness\\plots",
+  "plots": [
+    "accuracy_by_severity.png",
+    "macro_f1_by_severity.png",
+    "accuracy_drop_by_condition.png",
+    "clean_vs_worst_condition.png",
+    "per_class_robustness_heatmap.png",
+    "top_confusion_pairs.png"
+  ],
+  "worst_condition": {
+    "condition": "blur",
+    "severity": 3,
+    "accuracy": 0.6731099656357389,
+    "accuracy_drop": 0.2878006872852233
+  }
+}

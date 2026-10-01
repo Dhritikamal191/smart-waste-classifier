@@ -1,0 +1,123 @@
+{
+  "model": "models\\waste_classifier_finetuned.keras",
+  "test_images": 2328,
+  "classes": [
+    "battery",
+    "biological",
+    "brown-glass",
+    "cardboard",
+    "clothes",
+    "green-glass",
+    "metal",
+    "paper",
+    "plastic",
+    "shoes",
+    "trash",
+    "white-glass"
+  ],
+  "input_scale": "0-255",
+  "clean_accuracy": 0.9609106529209622,
+  "clean_mean_confidence": 0.9783362746238708,
+  "analysis_conditions": {
+    "blur": 3,
+    "gaussian_noise": 3,
+    "contrast": 3
+  },
+  "most_affected_classes": [
+    {
+      "condition": "blur",
+      "class": "paper",
+      "accuracy_drop": 0.5135135135135136,
+      "perturbed_accuracy": 0.41621621621621624
+    },
+    {
+      "condition": "blur",
+      "class": "clothes",
+      "accuracy_drop": 0.4635352286773794,
+      "perturbed_accuracy": 0.5265760197775031
+    },
+    {
+      "condition": "blur",
+      "class": "metal",
+      "accuracy_drop": 0.4608695652173913,
+      "perturbed_accuracy": 0.4608695652173913
+    },
+    {
+      "condition": "blur",
+      "class": "plastic",
+      "accuracy_drop": 0.3875968992248062,
+      "perturbed_accuracy": 0.4883720930232558
+    },
+    {
+      "condition": "blur",
+      "class": "cardboard",
+      "accuracy_drop": 0.21621621621621623,
+      "perturbed_accuracy": 0.7297297297297297
+    },
+    {
+      "condition": "gaussian_noise",
+      "class": "trash",
+      "accuracy_drop": 0.4504504504504504,
+      "perturbed_accuracy": 0.4774774774774775
+    },
+    {
+      "condition": "gaussian_noise",
+      "class": "plastic",
+      "accuracy_drop": 0.24031007751937983,
+      "perturbed_accuracy": 0.6356589147286822
+    },
+    {
+      "condition": "gaussian_noise",
+      "class": "paper",
+      "accuracy_drop": 0.2216216216216217,
+      "perturbed_accuracy": 0.7081081081081081
+    },
+    {
+      "condition": "gaussian_noise",
+      "class": "metal",
+      "accuracy_drop": 0.21739130434782605,
+      "perturbed_accuracy": 0.7043478260869566
+    },
+    {
+      "condition": "gaussian_noise",
+      "class": "green-glass",
+      "accuracy_drop": 0.16822429906542058,
+      "perturbed_accuracy": 0.7570093457943925
+    },
+    {
+      "condition": "contrast",
+      "class": "brown-glass",
+      "accuracy_drop": 0.5232558139534884,
+      "perturbed_accuracy": 0.4418604651162791
+    },
+    {
+      "condition": "contrast",
+      "class": "metal",
+      "accuracy_drop": 0.33913043478260874,
+      "perturbed_accuracy": 0.5826086956521739
+    },
+    {
+      "condition": "contrast",
+      "class": "battery",
+      "accuracy_drop": 0.25396825396825395,
+      "perturbed_accuracy": 0.7063492063492064
+    },
+    {
+      "condition": "contrast",
+      "class": "green-glass",
+      "accuracy_drop": 0.14018691588785048,
+      "perturbed_accuracy": 0.7850467289719626
+    },
+    {
+      "condition": "contrast",
+      "class": "white-glass",
+      "accuracy_drop": 0.1333333333333333,
+      "perturbed_accuracy": 0.7666666666666667
+    }
+  ],
+  "reports": {
+    "per_class": "reports\\robustness\\per_class_robustness.csv",
+    "confusion_pairs": "reports\\robustness\\confusion_pairs.csv",
+    "clean_confusion_matrix": "reports\\robustness\\confusion_matrix_clean.csv"
+  }
+}

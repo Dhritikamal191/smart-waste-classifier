@@ -1,0 +1,66 @@
+PHASE 3 — ERROR ANALYSIS
+======================================================================
+
+Total test images: 2328
+Correct predictions: 2236
+Incorrect predictions: 92
+Accuracy: 96.0481%
+Error rate: 3.9519%
+
+CONFUSION PAIRS
+----------------------------------------------------------------------
+white-glass -> plastic: 8
+clothes -> shoes: 7
+cardboard -> paper: 5
+metal -> white-glass: 5
+plastic -> white-glass: 5
+paper -> cardboard: 4
+shoes -> clothes: 4
+green-glass -> white-glass: 3
+green-glass -> plastic: 3
+metal -> plastic: 3
+paper -> battery: 3
+paper -> biological: 3
+plastic -> metal: 3
+plastic -> paper: 3
+white-glass -> metal: 3
+battery -> metal: 2
+paper -> white-glass: 2
+paper -> plastic: 2
+trash -> plastic: 2
+trash -> clothes: 2
+battery -> cardboard: 1
+biological -> brown-glass: 1
+brown-glass -> plastic: 1
+brown-glass -> shoes: 1
+brown-glass -> metal: 1
+cardboard -> brown-glass: 1
+clothes -> trash: 1
+green-glass -> metal: 1
+green-glass -> brown-glass: 1
+metal -> clothes: 1
+paper -> metal: 1
+plastic -> green-glass: 1
+plastic -> clothes: 1
+plastic -> biological: 1
+plastic -> brown-glass: 1
+shoes -> biological: 1
+trash -> white-glass: 1
+trash -> battery: 1
+trash -> brown-glass: 1
+white-glass -> green-glass: 1
+
+ERRORS BY TRUE CLASS
+----------------------------------------------------------------------
+battery: 3/126
+biological: 1/170
+brown-glass: 3/86
+cardboard: 6/111
+clothes: 8/809
+green-glass: 8/107
+metal: 9/115
+paper: 15/185
+plastic: 15/129
+shoes: 5/289
+trash: 7/111
+white-glass: 12/90

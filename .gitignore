@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment/secrets
+.env
+.env.*
+!.env.example
+
+# TensorFlow/Keras models
+*.h5
+*.keras
+
+# Local temporary files
+tmp/
+temp/
+
+# Raw/local datasets
+data/raw/
+data/splits/
+
+# Generated caches
+.cache/
+
+# Image files
+*.jpg
+*.jpeg
+*.png
+*.webp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Generated dataset splits
+data/splits/

@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Dataset
+data/raw/
+data/processed/
+data/splits/
+
+# Temporary files
+tmp/
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Training artifacts not required by inference
+models/history/
+models/evaluation/
+models/waste_classifier_phase1.keras
