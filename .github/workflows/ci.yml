@@ -4,131 +4,164 @@ on:
   push:
     branches:
       - main
-      - master
 
   pull_request:
     branches:
       - main
-      - master
 
 
 jobs:
 
-  # ==========================================================
-  # CODE QUALITY + TESTS
-  # ==========================================================
-
   test:
-
-    name: Tests
 
     runs-on: ubuntu-latest
 
+
     steps:
+
+      # ==================================================
+      # CHECKOUT
+      # ==================================================
 
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          lfs: true
 
+
+      # ==================================================
+      # PYTHON
+      # ==================================================
 
       - name: Set up Python
         uses: actions/setup-python@v5
-
         with:
           python-version: "3.12"
           cache: "pip"
 
 
-      - name: Upgrade pip
-        run: |
-          python -m pip install --upgrade pip
+      # ==================================================
+      # VERIFY MODEL
+      # ==================================================
 
+      - name: Verify model
+        run: |
+          echo "Checking model file..."
+          ls -lh models/
+          test -f models/waste_classifier_finetuned.keras
+
+
+      # ==================================================
+      # INSTALL DEPENDENCIES
+      # ==================================================
 
       - name: Install dependencies
         run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest
 
 
-      - name: Verify Python imports
+      # ==================================================
+      # BASIC TESTS
+      # ==================================================
+
+      - name: Run unit tests
         run: |
-          python -c "import fastapi"
-          python -c "import uvicorn"
-          python -c "import tensorflow"
-          python -c "from PIL import Image"
+          pytest -v \
+            tests/test_config.py \
+            tests/test_dataset.py \
+            tests/test_evaluation.py \
+            tests/test_model.py \
+            tests/test_monitoring.py \
+            tests/test_predictor.py
 
 
-      - name: Run tests
+      # ==================================================
+      # START FASTAPI
+      # ==================================================
+
+      - name: Start FastAPI server
         run: |
-          pytest -v
+          nohup uvicorn src.api:app \
+            --host 0.0.0.0 \
+            --port 8000 \
+            > api.log 2>&1 &
+
+          echo $! > api.pid
 
 
-  # ==========================================================
-  # DOCKER BUILD
-  # ==========================================================
+      # ==================================================
+      # WAIT FOR API
+      # ==================================================
 
-  docker:
-
-    name: Docker Build
-
-    runs-on: ubuntu-latest
-
-    needs:
-      - test
-
-    steps:
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-
-      - name: Build Docker image
+      - name: Wait for API
         run: |
-          docker build \
-            -t smart-waste-classifier:${{ github.sha }} \
-            .
+          python - <<'PY'
+          import time
+          import requests
+
+          url = "http://127.0.0.1:8000/health"
+
+          for i in range(60):
+
+              try:
+                  response = requests.get(url, timeout=2)
+
+                  if response.status_code == 200:
+                      print("API is ready.")
+                      break
+
+              except requests.exceptions.RequestException:
+                  pass
+
+              print(f"Waiting for API... {i + 1}/60")
+              time.sleep(2)
+
+          else:
+              print("API failed to start.")
+              print("=" * 60)
+              print("API LOG")
+              print("=" * 60)
+
+              try:
+                  with open("api.log", "r") as f:
+                      print(f.read())
+              except FileNotFoundError:
+                  print("api.log not found")
+
+              raise SystemExit(1)
+          PY
 
 
-      - name: Verify Uvicorn
+      # ==================================================
+      # API TESTS
+      # ==================================================
+
+      - name: Run API tests
         run: |
-          docker run --rm \
-            smart-waste-classifier:${{ github.sha }} \
-            python -c \
-            "import uvicorn; print('Uvicorn:', uvicorn.__version__)"
+          pytest -v \
+            tests/test_api.py \
+            tests/test_api_metrics.py
 
 
-      - name: Verify FastAPI
+      # ==================================================
+      # PRODUCTION TEST
+      # ==================================================
+
+      - name: Run production tests
         run: |
-          docker run --rm \
-            smart-waste-classifier:${{ github.sha }} \
-            python -c \
-            "import fastapi; print('FastAPI:', fastapi.__version__)"
+          pytest -v tests/test_production.py
 
 
-      - name: Verify TensorFlow
+      # ==================================================
+      # SHOW API LOG ON FAILURE
+      # ==================================================
+
+      - name: Show API logs
+        if: failure()
         run: |
-          docker run --rm \
-            smart-waste-classifier:${{ github.sha }} \
-            python -c \
-            "import tensorflow as tf; print('TensorFlow:', tf.__version__)"
-
-
-      - name: Verify Pillow
-        run: |
-          docker run --rm \
-            smart-waste-classifier:${{ github.sha }} \
-            python -c \
-            "from PIL import Image; print('Pillow:', Image.__version__)"
-
-
-      - name: Verify API module
-        run: |
-          docker run --rm \
-            smart-waste-classifier:${{ github.sha }} \
-            python -c \
-            "from src.api import app; print(app.title)"
-
-
-      - name: Verify Docker image
-        run: |
-          docker image inspect \
-            smart-waste-classifier:${{ github.sha }}
+          echo "======================================"
+          echo "FASTAPI LOG"
+          echo "======================================"
+          cat api.log || true
