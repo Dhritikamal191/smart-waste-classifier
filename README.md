@@ -1,4 +1,4 @@
-\# Smart Waste Classifier
+# Smart Waste Classifier
 
 
 
@@ -8,7 +8,7 @@ EfficientNetB0, TensorFlow, FastAPI, Docker, and NVIDIA GPU acceleration.
 
 
 
-\## Overview
+## Overview
 
 
 
@@ -19,50 +19,49 @@ image and predicts its waste category using a fine-tuned EfficientNetB0
 image classification model.
 
 
-
-\## Supported Classes
-
-
-
-\- Battery
-
-\- Biological
-
-\- Brown Glass
-
-\- Cardboard
-
-\- Clothes
-
-\- Green Glass
-
-\- Metal
-
-\- Paper
-
-\- Plastic
-
-\- Shoes
-
-\- Trash
-
-\- White Glass
+## Supported Classes
 
 
 
-\## Dataset
+- Battery
+
+- Biological
+
+- Brown Glass
+
+- Cardboard
+
+- Clothes
+
+- Green Glass
+
+- Metal
+
+- Paper
+
+- Plastic
+
+- Shoes
+
+- Trash
+
+- White Glass
 
 
 
-\- Images: 15,515
+## Dataset
 
-\- Classes: 12
 
-\- Training images: 10,860
 
-\- Validation images: 2,327
+- Images: 15,515
 
-\- Test images: 2,328
+- Classes: 12
+
+- Training images: 10,860
+
+- Validation images: 2,327
+
+- Test images: 2,328
 
 
 
@@ -72,7 +71,7 @@ data leakage between training, validation, and test sets.
 
 
 
-\## Model
+## Model
 
 
 
@@ -88,21 +87,20 @@ Training approach:
 
 
 
-1\. Transfer learning
+1. Transfer learning
 
-2\. Classification head training
+2. Classification head training
 
-3\. Fine-tuning
+3. Fine-tuning
 
-4\. Evaluation
+4. Evaluation
 
-5\. Robustness testing
+5. Robustness testing
 
-6\. Grad-CAM explainability
+6. Grad-CAM explainability
 
 
-
-\## Model Artifact
+## Model Artifact
 
 
 
