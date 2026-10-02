@@ -37,5 +37,4 @@ fastapi==0.141.1
 python-multipart==0.0.20
 pillow==12.3.0
 httpx2==2.13.1
-streamlit
-plotly
+httpx==0.28.1
