@@ -1,4 +1,3 @@
-from pathlib import Path
 import os
 
 import requests
@@ -20,24 +19,57 @@ st.set_page_config(
 # CONFIGURATION
 # ============================================================
 
-DEFAULT_API_URL = (
-    os.getenv(
-        "SMART_WASTE_API_URL",
-        "http://localhost:8000",
-    )
+# Local development fallback.
+#
+# On Render, set:
+#
+# SMART_WASTE_API_URL=https://YOUR-FASTAPI-SERVICE.onrender.com
+#
+DEFAULT_API_URL = os.getenv(
+    "SMART_WASTE_API_URL",
+    "http://localhost:8000",
 )
 
-API_URL = st.sidebar.text_input(
+API_URL = DEFAULT_API_URL.rstrip("/")
+
+
+# ============================================================
+# OPTIONAL SIDEBAR API OVERRIDE
+# ============================================================
+
+st.sidebar.title("♻️ Smart Waste")
+
+st.sidebar.caption(
+    "EfficientNetB0 · TensorFlow"
+)
+
+st.sidebar.markdown("---")
+
+
+# The environment variable is used by default.
+# This allows you to override the API URL manually when testing.
+api_url_input = st.sidebar.text_input(
     "Prediction API URL",
-    value=DEFAULT_API_URL,
-).rstrip("/")
+    value=API_URL,
+)
+
+API_URL = api_url_input.strip().rstrip("/")
+
+
+st.sidebar.markdown("---")
+
+st.sidebar.caption(
+    "Production ML Dashboard"
+)
 
 
 # ============================================================
 # PAGE HEADER
 # ============================================================
 
-st.title("♻️ Live Waste Classification")
+st.title(
+    "♻️ Live Waste Classification"
+)
 
 st.caption(
     "Upload a waste image and send it to the trained "
@@ -45,32 +77,43 @@ st.caption(
 )
 
 
+st.divider()
+
+
 # ============================================================
 # API STATUS
 # ============================================================
 
 def check_api():
+    """
+    Check whether the FastAPI inference service is available.
+    """
+
+    if not API_URL:
+        return False, None
 
     try:
 
         response = requests.get(
             f"{API_URL}/health",
-            timeout=5,
+            timeout=10,
         )
 
         if response.status_code != 200:
-
             return False, None
 
         return True, response.json()
 
     except requests.RequestException:
-
         return False, None
 
 
 api_online, health_data = check_api()
 
+
+# ============================================================
+# API STATUS DISPLAY
+# ============================================================
 
 if api_online:
 
@@ -82,6 +125,10 @@ else:
 
     st.error(
         "● Prediction API is unavailable"
+    )
+
+    st.caption(
+        f"Current API URL: `{API_URL}`"
     )
 
 
@@ -119,6 +166,7 @@ st.subheader(
     "Upload Image"
 )
 
+
 uploaded_file = st.file_uploader(
     "Choose a waste image",
     type=[
@@ -149,7 +197,7 @@ if uploaded_file is not None:
         st.image(
             uploaded_file,
             caption=uploaded_file.name,
-            width="stretch",
+            use_container_width=True,
         )
 
     with col2:
@@ -160,10 +208,7 @@ if uploaded_file is not None:
 
         file_size_mb = (
             uploaded_file.size
-            / (
-                1024
-                * 1024
-            )
+            / (1024 * 1024)
         )
 
         st.metric(
@@ -181,10 +226,11 @@ if uploaded_file is not None:
 
 
 # ============================================================
-# PREDICTION
+# PREDICTION BUTTON
 # ============================================================
 
 st.divider()
+
 
 predict_button = st.button(
     "🚀 Classify Waste",
@@ -196,6 +242,10 @@ predict_button = st.button(
     ),
 )
 
+
+# ============================================================
+# PREDICTION
+# ============================================================
 
 if predict_button:
 
@@ -209,12 +259,12 @@ if predict_button:
 
 
     # --------------------------------------------------------
-    # SIZE VALIDATION
+    # FILE SIZE VALIDATION
     # --------------------------------------------------------
 
-    if uploaded_file.size > (
-        10 * 1024 * 1024
-    ):
+    MAX_FILE_SIZE = 10 * 1024 * 1024
+
+    if uploaded_file.size > MAX_FILE_SIZE:
 
         st.error(
             "The image is larger than the 10 MB API limit."
@@ -224,7 +274,7 @@ if predict_button:
 
 
     # --------------------------------------------------------
-    # SEND REQUEST
+    # SEND REQUEST TO FASTAPI
     # --------------------------------------------------------
 
     with st.spinner(
@@ -242,13 +292,32 @@ if predict_button:
                         uploaded_file.type,
                     )
                 },
-                timeout=60,
+                timeout=120,
             )
 
         except requests.Timeout:
 
             st.error(
-                "Prediction request timed out."
+                "Prediction request timed out. "
+                "The FastAPI service may be starting up."
+            )
+
+            st.stop()
+
+        except requests.ConnectionError:
+
+            st.error(
+                "Unable to connect to the prediction API."
+            )
+
+            st.code(
+                API_URL,
+                language="text",
+            )
+
+            st.info(
+                "Check that SMART_WASTE_API_URL points "
+                "to your deployed FastAPI service."
             )
 
             st.stop()
@@ -256,14 +325,14 @@ if predict_button:
         except requests.RequestException as exc:
 
             st.error(
-                f"Unable to connect to the prediction API: {exc}"
+                f"Prediction API request failed: {exc}"
             )
 
             st.stop()
 
 
     # --------------------------------------------------------
-    # RESPONSE
+    # RESPONSE STATUS
     # --------------------------------------------------------
 
     if response.status_code != 200:
@@ -290,6 +359,10 @@ if predict_button:
         st.stop()
 
 
+    # --------------------------------------------------------
+    # PARSE JSON
+    # --------------------------------------------------------
+
     try:
 
         result = response.json()
@@ -303,21 +376,32 @@ if predict_button:
         st.stop()
 
 
-    # --------------------------------------------------------
+    # ========================================================
     # EXTRACT RESULT
-    # --------------------------------------------------------
+    # ========================================================
 
     predicted_class = result.get(
         "predicted_class",
         "-",
     )
 
-    confidence = float(
-        result.get(
-            "confidence",
-            0.0,
+
+    try:
+
+        confidence = float(
+            result.get(
+                "confidence",
+                0.0,
+            )
         )
-    )
+
+    except (
+        TypeError,
+        ValueError,
+    ):
+
+        confidence = 0.0
+
 
     top_predictions = result.get(
         "top_predictions",
@@ -351,13 +435,17 @@ if predict_button:
             "### Predicted Waste Class"
         )
 
-        st.success(
+        display_class = (
             predicted_class
             .replace(
                 "-",
                 " ",
             )
             .title()
+        )
+
+        st.success(
+            display_class
         )
 
 
@@ -394,7 +482,6 @@ if predict_button:
             "Top Predictions"
         )
 
-        rows = []
 
         for index, prediction in enumerate(
             top_predictions,
@@ -406,37 +493,52 @@ if predict_button:
                 "-",
             )
 
-            prediction_confidence = float(
-                prediction.get(
-                    "confidence",
+            try:
+
+                prediction_confidence = float(
+                    prediction.get(
+                        "confidence",
+                        0.0,
+                    )
+                )
+
+            except (
+                TypeError,
+                ValueError,
+            ):
+
+                prediction_confidence = 0.0
+
+
+            display_name = (
+                class_name
+                .replace(
+                    "-",
+                    " ",
+                )
+                .title()
+            )
+
+
+            st.write(
+                f"**{index}. {display_name}** — "
+                f"{prediction_confidence * 100:.2f}%"
+            )
+
+
+            st.progress(
+                max(
                     0.0,
+                    min(
+                        1.0,
+                        prediction_confidence,
+                    ),
                 )
             )
 
-            rows.append(
-                {
-                    "Rank": index,
-                    "Waste Class": (
-                        class_name
-                        .replace(
-                            "-",
-                            " ",
-                        )
-                        .title()
-                    ),
-                    "Confidence": (
-                        f"{prediction_confidence * 100:.2f}%"
-                    ),
-                }
-            )
-
-        st.table(
-            rows
-        )
-
 
     # ========================================================
-    # RAW RESPONSE
+    # RAW API RESPONSE
     # ========================================================
 
     with st.expander(
@@ -449,7 +551,7 @@ if predict_button:
 
 
 # ============================================================
-# API INFORMATION
+# INFERENCE SERVICE INFORMATION
 # ============================================================
 
 st.divider()
@@ -458,7 +560,11 @@ st.subheader(
     "Inference Service"
 )
 
-info_col1, info_col2, info_col3 = st.columns(3)
+
+info_col1, info_col2, info_col3 = st.columns(
+    3
+)
+
 
 with info_col1:
 
@@ -467,12 +573,14 @@ with info_col1:
         "FastAPI",
     )
 
+
 with info_col2:
 
     st.metric(
         "Model",
         "EfficientNetB0",
     )
+
 
 with info_col3:
 
@@ -483,7 +591,7 @@ with info_col3:
 
 
 # ============================================================
-# ENDPOINT INFORMATION
+# API ENDPOINT INFORMATION
 # ============================================================
 
 with st.expander(
