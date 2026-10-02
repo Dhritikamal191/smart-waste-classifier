@@ -23,14 +23,12 @@ st.set_page_config(
 #
 # On Render, set:
 #
-# SMART_WASTE_API_URL=https://YOUR-FASTAPI-SERVICE.onrender.com
-#
-DEFAULT_API_URL = os.getenv(
+STREAMLIT_API_URL = os.getenv(
     "SMART_WASTE_API_URL",
     "http://localhost:8000",
 )
 
-API_URL = DEFAULT_API_URL.rstrip("/")
+API_URL = STREAMLIT_API_URL.rstrip("/")
 
 
 # ============================================================
