@@ -1,8 +1,22 @@
 from pathlib import Path
 
+import pytest
+
 from src.api import app
 
-import pytest
+
+# ============================================================
+# TEST FIXTURES
+# ============================================================
+
+BATTERY_TEST_IMAGE = Path(
+    "tests/fixtures/battery_test.jpg"
+)
+
+WHITE_GLASS_TEST_IMAGE = Path(
+    "tests/fixtures/white_glass_test.jpg"
+)
+
 
 # ============================================================
 # HEALTH ENDPOINT
@@ -64,13 +78,11 @@ def test_predict_valid_image(client):
     Verify that the prediction endpoint accepts a valid
     waste image and returns the expected prediction structure.
 
-    This test requires the local waste dataset and trained model.
+    Uses a small committed fixture image instead of relying
+    on the full Kaggle dataset.
     """
 
-    image_path = Path(
-        "data/raw/garbage_classification/"
-        "garbage_classification/battery/battery1.jpg"
-    )
+    image_path = BATTERY_TEST_IMAGE
 
     assert image_path.exists(), (
         f"Test image not found: {image_path}"
@@ -132,13 +144,11 @@ def test_predict_response_structure(client):
     """
     Verify the structure of the top prediction results.
 
-    This test requires the local waste dataset and trained model.
+    Uses a small committed fixture image instead of relying
+    on the full Kaggle dataset.
     """
 
-    image_path = Path(
-        "data/raw/garbage_classification/"
-        "garbage_classification/white-glass/white-glass1.jpg"
-    )
+    image_path = WHITE_GLASS_TEST_IMAGE
 
     assert image_path.exists(), (
         f"Test image not found: {image_path}"
@@ -245,7 +255,10 @@ def test_predict_unsupported_file_type(client):
         },
     )
 
-    assert response.status_code in (400, 415)
+    assert response.status_code in (
+        400,
+        415,
+    )
 
     data = response.json()
 
