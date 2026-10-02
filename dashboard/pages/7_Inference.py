@@ -14,22 +14,31 @@ st.set_page_config(
     layout="wide",
 )
 
-
 # ============================================================
-# CONFIGURATION
+# API CONFIGURATION
 # ============================================================
 
-# Local development fallback.
-#
-# On Render, set:
-#
-STREAMLIT_API_URL = os.getenv(
-    "SMART_WASTE_API_URL",
-    "http://localhost:8000",
+DEFAULT_API_URL = "http://localhost:8000"
+
+try:
+    API_URL = st.secrets.get(
+        "SMART_WASTE_API_URL",
+        DEFAULT_API_URL,
+    )
+except Exception:
+    API_URL = DEFAULT_API_URL
+
+API_URL = str(API_URL).rstrip("/")
+
+st.sidebar.text_input(
+    "Prediction API URL",
+    value=API_URL,
+    disabled=True,
 )
 
-API_URL = STREAMLIT_API_URL.rstrip("/")
-
+st.sidebar.caption(
+    f"Connected API: {API_URL}"
+)
 
 # ============================================================
 # OPTIONAL SIDEBAR API OVERRIDE
