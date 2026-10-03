@@ -22,8 +22,7 @@ DEFAULT_API_URL = "http://localhost:8000"
 
 try:
     API_URL = st.secrets.get(
-        "SMART_WASTE_API_URL",
-        STREAMLIT_API_URL,
+        STREAMLIT_API_URL
     )
 except Exception:
     API_URL = DEFAULT_API_URL
