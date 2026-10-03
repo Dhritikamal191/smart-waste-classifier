@@ -32,7 +32,7 @@ API_URL = str(API_URL).rstrip("/")
 st.sidebar.text_input(
     "Prediction API URL",
     value=API_URL,
-    disabled=True,
+    disabled=True,key="prediction_key"
 )
 
 st.sidebar.caption(
@@ -56,7 +56,7 @@ st.sidebar.markdown("---")
 # This allows you to override the API URL manually when testing.
 api_url_input = st.sidebar.text_input(
     "Prediction API URL",
-    value=API_URL,
+    value=API_URL,key="api_key"
 )
 
 API_URL = api_url_input.strip().rstrip("/")
