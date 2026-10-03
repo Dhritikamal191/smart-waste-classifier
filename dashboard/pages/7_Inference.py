@@ -19,6 +19,7 @@ st.set_page_config(
 # ============================================================
 
 DEFAULT_API_URL = "http://localhost:8000"
+API_URL = st.secrets.get(STREAMLIT_API_URL)
 
 try:
     API_URL = st.secrets.get(
